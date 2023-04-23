@@ -7,6 +7,7 @@ Exports metrics for prometheus
 ### Gentoo
 
 `layman -a ubuilds`
+
 `emerge moosefs_exporter`
 
 ### Alpine
