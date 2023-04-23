@@ -3,7 +3,6 @@ require "option_parser"
 require "validator"
 
 module MoosefsExporter
-
   class Settings
     property host = "127.0.0.1"
     property port = 9192
@@ -13,7 +12,6 @@ module MoosefsExporter
   end
 
   class Options
-
     getter settings
     Log = ::Log.for("config")
 
@@ -52,7 +50,6 @@ module MoosefsExporter
           puts VERSION
           exit
         end
-
       end rescue abort "Invalid arguments, see --help."
     end
   end

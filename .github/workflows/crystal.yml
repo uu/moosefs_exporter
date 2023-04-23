@@ -15,6 +15,8 @@ jobs:
       image: crystallang/crystal:1.8.1-alpine-build
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - name: Test
+      run: make test
     - name: Build
       run: make
