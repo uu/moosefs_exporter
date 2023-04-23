@@ -1,0 +1,18 @@
+version: 2.0
+shards:
+  ameba:
+    git: https://github.com/crystal-ameba/ameba.git
+    version: 1.4.3
+
+  crometheus:
+    git: https://github.com/darwinnn/crometheus.git
+    version: 0.3.0+git.commit.c71a13174d02e3767b62faa1771132d4245e1ce5
+
+  prop:
+    git: https://github.com/nicolab/crystal-prop.git
+    version: 0.7.1
+
+  validator:
+    git: https://github.com/nicolab/crystal-validator.git
+    version: 1.11.0
+

@@ -1,0 +1,23 @@
+name: moosefs_exporter
+version: 0.1.0
+
+authors:
+  - Michael Pirogov <vbnet.ru@gmail.com>
+
+targets:
+  moosefs_exporter:
+    main: src/moosefs_exporter.cr
+
+crystal: 1.8.1
+
+license: MIT
+dependencies:
+  crometheus:
+    github: darwinnn/crometheus
+    branch: master
+  validator:
+      github: nicolab/crystal-validator
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 1.4.0
