@@ -27,7 +27,7 @@ module MoosefsExporter
       end
     end
 
-    address = server.bind_tcp options.settings.port
+    address = server.bind_tcp options.settings.host, options.settings.port
 
     Log.info { "Serving metrics at http://#{options.settings.host}:#{options.settings.port}/metrics" }
     Log.info { "Press Ctrl+C to exit" }
