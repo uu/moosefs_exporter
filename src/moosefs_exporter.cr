@@ -5,7 +5,7 @@ require "./agent"
 require "crometheus"
 
 module MoosefsExporter
-  VERSION = "0.1.1"
+  VERSION = "0.1.0"
   Log     = ::Log.for("main")
 
   class Daemon
