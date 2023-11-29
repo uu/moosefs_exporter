@@ -33,11 +33,20 @@ module MoosefsExporter
       :moosefs_master_info__last_save_duration,
     ]
 
+    Crometheus.alias NodeInfo = Crometheus::Gauge[:nodename]
+
     def initialize(@options : MoosefsExporter::Options)
       Log.level = :debug if @options.settings.debug?
 
+      unless File.exists?("/usr/bin/mfscli")
+        Log.error { "could not find /usr/bin/mfscli" }
+        exit
+      end
       Log.debug { "listening on #{@options.settings.host}:#{@options.settings.port}" }
       @gauge = Hash(Symbol, Crometheus::Gauge).new
+
+      @gauge_nodeinfo = NodeInfo.new(:nodeinfo, "Name of this exporter")
+      @gauge_nodeinfo[nodename: System.hostname].set(1)
 
       define_gauges
     end
@@ -47,6 +56,8 @@ module MoosefsExporter
 
       set_metrics(stats) unless stats.nil?
 
+      read_master_chart("usedspace")
+
       call_next(context)
     end
 
@@ -54,6 +65,22 @@ module MoosefsExporter
       io, error = IO::Memory.new, IO::Memory.new
       proc = Process.new("mfscli", args: {"-n", "-s", "\|", "-SIG", "-H", @options.settings.masterhost.to_s, "-P",
                                           @options.settings.masterport.to_s}, output: io, error: error)
+
+      case proc.wait
+      when .success?
+        data = io.to_s
+        CSV.parse(data, separator: '|')
+      else
+        Log.error { "#{io} #{error}" }
+        nil
+      end
+    end
+
+    private def read_master_chart(chartname : String)
+      io, error = IO::Memory.new, IO::Memory.new
+      proc = Process.new("mfscli", args: {"-n", "-s", "\|", "-SMC", "-a", "1", "-d", "+#{chartname}", "-H",
+                                         @options.settings.masterhost.to_s, "-P",
+                                         @options.settings.masterport.to_s}, output: io, error: error)
 
       case proc.wait
       when .success?

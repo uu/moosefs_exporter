@@ -6,7 +6,9 @@ Exports metrics for prometheus
 
 ### Gentoo
 
-`layman -a ubuilds`
+`eselect repository enable ubuilds`
+
+`emaint sync -r ubuilds`
 
 `emerge moosefs_exporter`
 
